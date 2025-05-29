@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Grade>
+
+@{
+    ViewData["Title"] = "Danh sách lớp học";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Tạo lớp mới</a>
+    <a asp-controller="Student" asp-action="Index" class="btn btn-info">Quản lý học sinh</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên lớp học</th>
+            <th>Số học sinh</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.GradeId</td>
+                <td>@item.GradeName</td>
+                <td>
+                    <span class="badge bg-primary">@item.Students.Count</span>
+                </td>
+                <td>
+                    <a asp-action="Students" asp-route-id="@item.GradeId" class="btn btn-sm btn-success">Xem học sinh</a>
+                    <a asp-action="Edit" asp-route-id="@item.GradeId" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-action="Details" asp-route-id="@item.GradeId" class="btn btn-sm btn-info">Chi tiết</a>
+                    <a asp-action="Delete" asp-route-id="@item.GradeId" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Bạn có chắc muốn xóa lớp @item.GradeName?')">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <h4>Chưa có lớp học nào</h4>
+        <p>Hãy <a asp-action="Create">tạo lớp học mới</a> để bắt đầu quản lý học sinh.</p>
+    </div>
+}

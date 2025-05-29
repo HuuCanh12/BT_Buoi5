@@ -1,0 +1,55 @@
+@model IEnumerable<Student>
+
+@{
+    ViewData["Title"] = $"Học sinh lớp {ViewBag.GradeName}";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row mb-3">
+    <div class="col">
+        <a asp-action="Index" class="btn btn-secondary">← Quay lại danh sách lớp</a>
+        <a asp-controller="Student" asp-action="Create" asp-route-gradeId="@ViewBag.GradeId"
+            class="btn btn-primary">Thêm học sinh mới</a>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Họ</th>
+                <th>Tên</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.StudentId</td>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>
+                        <a asp-controller="Student" asp-action="Details" asp-route-id="@student.StudentId"
+                            class="btn btn-sm btn-info">Chi tiết</a>
+                        <a asp-controller="Student" asp-action="Edit" asp-route-id="@student.StudentId"
+                            class="btn btn-sm btn-warning">Sửa</a>
+                        <a asp-controller="Student" asp-action="Delete" asp-route-id="@student.StudentId"
+                            class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">
+        <h4>Chưa có học sinh nào trong lớp này</h4>
+        <p>Hãy <a asp-controller="Student" asp-action="Create" asp-route-gradeId="@ViewBag.GradeId">thêm học sinh mới</a>
+            cho lớp học này.</p>
+    </div>
+}
